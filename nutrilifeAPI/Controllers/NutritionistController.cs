@@ -119,18 +119,18 @@ namespace nutrilifeAPI.Controllers
         [HttpPost]
         [Route("CreateNutritionist")]
         public async Task<IActionResult> Create(string name, string surname, string mail, string password, string gender,
-            IFormFile cv, IFormFile degree, IFormFile profilePicture, bool weightManagement, bool sportsNutrition,
+            IFormFile cv, IFormFile degree, IFormFile? profilePicture, bool weightManagement, bool sportsNutrition,
             bool pregnancyNutrition, bool diabeticNutrition, bool childNutrition, string phoneNumber)
         {
             var cvFileName = $"{name}{surname}" + Path.GetFileName(cv.FileName);
             var degreeFileName = $"{name}{surname}" + Path.GetFileName(degree.FileName);
-            var profilePictureFileName = $"{name}{surname}" + Path.GetFileName(profilePicture.FileName);
 
             var cvFilePath = Path.Combine(@"C:\temp\nutritionistDocuments\", cvFileName);
             var degreeFilePath = Path.Combine(@"C:\temp\nutritionistDocuments\", degreeFileName);
-            var profilePictureFilePath = Path.Combine(@"C:\temp\nutritionistDocuments\", profilePictureFileName);
-            Directory.CreateDirectory(@"C:\temp\nutritionistDocuments\");
+            var profilePictureFilePath = "";
 
+
+            Directory.CreateDirectory(@"C:\temp\nutritionistDocuments\");
             using (var stream = System.IO.File.Create(cvFilePath))
             {
                 await cv.CopyToAsync(stream);
@@ -142,6 +142,8 @@ namespace nutrilifeAPI.Controllers
 
             if (profilePicture != null)
             {
+                var profilePictureFileName = $"{name}{surname}" + Path.GetFileName(profilePicture.FileName);
+                profilePictureFilePath = Path.Combine(@"C:\temp\nutritionistDocuments\", profilePictureFileName);
                 using (var stream = System.IO.File.Create(profilePictureFilePath))
                 {
                     await profilePicture.CopyToAsync(stream);
@@ -201,7 +203,8 @@ namespace nutrilifeAPI.Controllers
             var pictureFileName = $"{nutritionist.Name}{id}" + Path.GetFileName(profilePicture.FileName);
             var pictureFilePath = Path.Combine(@"C:\temp\nutritionistDocuments\", pictureFileName);
 
-            System.IO.File.Delete(nutritionist.ProfilePicture);
+            if (System.IO.File.Exists(nutritionist.ProfilePicture))
+                System.IO.File.Delete(nutritionist.ProfilePicture);
             using (var stream = System.IO.File.Create(pictureFilePath))
             {
                 await profilePicture.CopyToAsync(stream);
