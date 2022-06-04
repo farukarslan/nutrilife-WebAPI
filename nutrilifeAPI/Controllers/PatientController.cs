@@ -380,7 +380,7 @@ namespace nutrilifeAPI.Controllers
         [Route("SearchPatient")]
         public async Task<IEnumerable<Patients>> Search(string nameSurname)
         {
-            return await _context.Patients.Where(x => x.Name.Contains(nameSurname) || x.Surname.Contains(nameSurname)).ToListAsync();
+            return await _context.Patients.Where(x => x.Name.Contains(nameSurname) || x.Surname.Contains(nameSurname) || (x.Name + " " + x.Surname).Contains(nameSurname)).ToListAsync();
         }
 
         [HttpPost]
