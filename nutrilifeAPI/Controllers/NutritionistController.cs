@@ -432,13 +432,13 @@ namespace nutrilifeAPI.Controllers
             }
 
             if (nonAlphanumeric)
-                password.Append((char)random.Next(33, 48));
+                password.Append((char)random.Next(33, 48)); //special characters
             if (digit)
-                password.Append((char)random.Next(48, 58));
+                password.Append((char)random.Next(48, 58)); //numbers
             if (lowercase)
-                password.Append((char)random.Next(97, 123));
+                password.Append((char)random.Next(97, 123)); //lowercase characters
             if (uppercase)
-                password.Append((char)random.Next(65, 91));
+                password.Append((char)random.Next(65, 91));  //uppercase characters
 
             return password.ToString();
         }
