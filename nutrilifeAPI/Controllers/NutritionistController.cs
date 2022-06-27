@@ -533,7 +533,7 @@ namespace nutrilifeAPI.Controllers
         }
 
         [HttpPost]
-        [Route("CreatePatient")]
+        [Route("CreateNotificationMessage")]
         public async Task<IActionResult> CreateNotificationMessage(NotificationMessages notification)
         {
             await _context.NotificationMessages.AddAsync(notification);
